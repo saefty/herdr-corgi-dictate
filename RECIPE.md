@@ -1,5 +1,7 @@
 # Dictate
 
+Talk to your agents instead of typing. Press a key, speak, press it again: the text is transcribed on your Mac and lands at your cursor, ready to edit before you send it.
+
 Local dictation for Herdr on macOS. One key starts recording, the same key stops it; the speech is transcribed on
 the Mac and pasted into the focused terminal without Enter. Other mods (the chat bar's mic) can ask for a recording
 and get the text back through shared state.

@@ -1,4 +1,4 @@
-# Dictate
+# Corgi · Dictate
 
 Talk to your agents instead of typing. Press a key, speak, press it again: the text is transcribed on your Mac and lands at your cursor, ready to edit before you send it.
 

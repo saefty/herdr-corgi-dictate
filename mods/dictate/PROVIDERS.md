@@ -1,5 +1,9 @@
 # Dictate: the plug-in contract (version 1)
 
+The rules every mod in the herdr-corgi set shares (announcing, requests, providers, the context hook,
+versions) are in [CONVENTIONS.md](https://github.com/saefty/herdr-corgi/blob/main/CONVENTIONS.md). This page has
+what is specific to this mod.
+
 Dictate works on its own: a key records, the same key transcribes, and the text is pasted into the focused
 terminal without Enter. Other mods can ask for a recording through shared state and get the text back instead.
 Dictate never reads another mod's files.

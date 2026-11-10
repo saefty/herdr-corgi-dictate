@@ -10,7 +10,7 @@ transcribes on Apple Silicon, and the model detects the language by itself.
 
 - **A long prompt for an agent.** Explain the bug the way you would to a colleague; the words land in Claude Code's
   input, ready to edit. Nothing is submitted until you press Enter.
-- **Answering an agent from the chat bar.** With the [chat bar](https://github.com/saefty/herdr-chatbar) installed,
+- **Answering an agent from the chat bar.** With the [chat bar](https://github.com/saefty/herdr-corgi-chatbar) installed,
   each reply field has a mic: click, speak, click. The text is appended to that bubble's field.
 - **A shell command you can say faster than type.** It lands on the prompt line; you check it before running it.
 - **Your own mod.** Ask for a recording through shared state and get the text back (see

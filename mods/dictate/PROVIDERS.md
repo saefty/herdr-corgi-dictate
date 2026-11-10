@@ -48,7 +48,7 @@ key), `since` when recording started (ms). Use it to show your own recording sta
 
 | Key | Shape | When |
 |---|---|---|
-| `dictate.api` | `{version, ready, hint}` | on start |
+| `dictate.api` | `{version, ready, hint}` | on start; `null` when its last copy closes (removed, quit) |
 | `dictate.state` | see 3. | when the status changes |
 | `dictate.request` | `null` | after taking a request |
 | your `reply.key` | `{...value, text}` | when the transcript is ready |

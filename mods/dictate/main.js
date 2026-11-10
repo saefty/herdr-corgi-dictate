@@ -37,8 +37,8 @@ export default class Dictate extends View {
     cx.spawn(async () => {
       const st = await voice(["status"]);
       this.hint = setupHint(st?.ok ? st : null);
-      const api = { version: API_VERSION, ready: !this.hint, hint: this.hint };
-      if (JSON.stringify(api) !== JSON.stringify(shared("dictate.api"))) setShared("dictate.api", api);
+      this.api = { version: API_VERSION, ready: !this.hint, hint: this.hint };
+      if (JSON.stringify(this.api) !== JSON.stringify(shared("dictate.api"))) setShared("dictate.api", this.api);
     });
   }
 
@@ -121,12 +121,18 @@ export default class Dictate extends View {
     });
   }
 
-  // Nothing resident after Herdr closes this copy mid-recording.
+  // Nothing resident after Herdr closes this copy mid-recording. Removed or closed, dictate.api goes too, so the chat
+  // bar shows no mic nobody answers; another copy that still runs announces it again on its next render.
   async close() {
+    setShared("dictate.api", null);
     if (this.status !== "idle") await exec("python3", [`${appHome()}/${VOICE}`, "cancel"]);
   }
 
   render(cx) {
+    if (this.api && !shared("dictate.api") && !this.announcing) {
+      this.announcing = true;
+      cx.timer.after(0, () => { this.announcing = false; setShared("dictate.api", this.api); });
+    }
     this.take(cx);
     if (this.status === "idle") return div();
     const t = theme();

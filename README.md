@@ -1,5 +1,7 @@
 # Dictate for Herdr
 
+Part of [Corgi](https://github.com/saefty/herdr-corgi), a set of Herdr mods that plug into each other.
+
 Speak instead of typing, in any terminal in Herdr. Press ⌘⇧M, talk, press ⌘⇧M again: the text is transcribed on
 your Mac and pasted where your cursor is, without pressing Enter. You read it, fix a word, and send it yourself.
 

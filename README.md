@@ -60,7 +60,7 @@ Herdr needs microphone access the first time (System Settings → Privacy & Secu
 </tr>
 </table>
 
-Or tell your agent: add herdr.dev/mods/saefty/herdr-corgi-dictate
+Or tell your agent: `Read ~/.config/herdr-app/AGENTS.md, then add this mod: https://github.com/saefty/herdr-corgi-dictate/tree/main`
 
 By hand, step by step:
 

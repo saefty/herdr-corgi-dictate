@@ -1,0 +1,86 @@
+# Dictate for Herdr
+
+Speak instead of typing, in any terminal in Herdr. Press ⌘⇧M, talk, press ⌘⇧M again: the text is transcribed on
+your Mac and pasted where your cursor is, without pressing Enter. You read it, fix a word, and send it yourself.
+
+macOS only. Nothing leaves the machine: ffmpeg records, [parakeet-mlx](https://github.com/senstella/parakeet-mlx)
+transcribes on Apple Silicon, and the model detects the language by itself.
+
+## Use cases
+
+- **A long prompt for an agent.** Explain the bug the way you would to a colleague; the words land in Claude Code's
+  input, ready to edit. Nothing is submitted until you press Enter.
+- **Answering an agent from the chat bar.** With the [chat bar](https://github.com/saefty/herdr-chatbar) installed,
+  each reply field has a mic: click, speak, click. The text is appended to that bubble's field.
+- **A shell command you can say faster than type.** It lands on the prompt line; you check it before running it.
+- **Your own mod.** Ask for a recording through shared state and get the text back (see
+  [PROVIDERS.md](mods/dictate/PROVIDERS.md)).
+
+## Features
+
+- One key to start and stop (`dictate.toggle`, ⌘⇧M in the sample `keys.json`). While recording a small float at the
+  bottom shows a pulsing dot and the time, with Stop and ✕ (cancel, nothing typed). Then "Transcribing…", then it
+  disappears.
+- Fast after you stop: a worker loads the model while you speak and warms it up on a second of silence, so only the
+  transcription itself is left.
+- Pastes into the terminal that has focus when the text is ready, as a paste (bracketed), never with Enter. Line
+  breaks are removed. With no terminal focused, the text stays on the clipboard and a toast says so. Your previous
+  clipboard text is put back after the paste.
+- Nothing stays running: the worker exits after one transcription (or after a timeout), recording stops at
+  `maxSeconds`, and cancel or closing Herdr stops both.
+- Missing ffmpeg or parakeet-mlx: a toast (and the chat bar's mic tooltip) says what to install. It never installs
+  anything itself.
+
+## Requirements
+
+| What | Needed for | Install |
+|---|---|---|
+| macOS on Apple Silicon | everything | |
+| Herdr | everything | |
+| `python3` | the recorder and worker scripts (standard library only) | ships with the Xcode command line tools |
+| ffmpeg | recording (avfoundation) | `brew install ffmpeg` |
+| parakeet-mlx | transcription | `uv tool install parakeet-mlx` |
+
+Herdr needs microphone access the first time (System Settings → Privacy & Security → Microphone).
+
+## Install
+
+1. Copy `mods/dictate` to `~/.config/herdr-app/mods/`.
+2. Add a floating block to each layout you use (`~/.config/herdr-app/layouts/<name>.json`), on the root node or the
+   node that holds your terminals. The key reaches dictate only in layouts that have it:
+
+   ```json
+   "floating": [
+     { "id": "dictate", "content": { "mod": "dictate" }, "edge": "bottom", "align": "center" }
+   ]
+   ```
+
+3. Merge `keys.json` into `~/.config/herdr-app/keys.json` (`"cmd-shift-m": "dictate.toggle"` under `global`), or
+   pick another free key.
+4. Optional: `~/.config/herdr-app/dictate.config.json`:
+
+   ```json
+   { "model": "mlx-community/parakeet-tdt-0.6b-v3", "device": "0", "maxSeconds": 300 }
+   ```
+
+   `model` is any parakeet-mlx model on Hugging Face (default as above; the first use downloads it), `device` the
+   avfoundation audio input (`ffmpeg -f avfoundation -list_devices true -i ""` lists them), `maxSeconds` the
+   longest recording.
+5. Run `herdr-app check ~/.config/herdr-app/mods/dictate`.
+
+It runs `python3 mods/dictate/voice.py`, which starts ffmpeg and parakeet-mlx's own python, and writes the recording
+and the transcript to a folder in your temp directory (deleted after use). It reads the clipboard and runs Herdr's
+`terminal.paste`. It makes no network calls, except parakeet-mlx downloading a model it doesn't have yet.
+
+## Tests
+
+`node --test mods/dictate/test_route.mjs`, and one real transcription without the mic:
+
+```sh
+say -o /tmp/hello.aiff "Hello world" && ffmpeg -y -i /tmp/hello.aiff -ac 1 -ar 16000 /tmp/hello.wav
+python3 mods/dictate/voice.py transcribe /tmp/hello.wav ~/.config/herdr-app/dictate.config.json
+```
+
+## License
+
+MIT

@@ -2,7 +2,7 @@
 
 <h3 align="center">Talk to your agents instead of typing. Press a key, speak, press it again: the text is transcribed on your Mac and lands at your cursor, ready to edit before you send it.</h3>
 
-<p align="center"><img src="preview.png" width="88%" alt="Dictate recording over a terminal: a small float with a red dot, Recording 0:07 and Stop" /></p>
+<p align="center"><img src="preview.png" width="88%" alt="Two steps in Claude Code. 1, Speak: the agent asks a question and a float at the bottom shows Recording 0:07 with Stop. 2, Edit, then send: the dictated answer, Use the 08:00 schedule from infra/main.tf and drop the 24 h timer., sits in the prompt line, not sent yet." /></p>
 
 <p align="center"><sub>✓&nbsp;Free,&nbsp;MIT &nbsp;·&nbsp; ✓&nbsp;Runs&nbsp;locally &nbsp;·&nbsp; ✓&nbsp;herdr-app&nbsp;0.1.14+</sub></p>
 
@@ -37,6 +37,8 @@ transcribes on Apple Silicon, and the model detects the language by itself.
   `maxSeconds`, and cancel or closing Herdr stops both.
 - Missing ffmpeg or parakeet-mlx: a toast (and the chat bar's mic tooltip) says what to install. It never installs
   anything itself.
+
+<p align="center"><img src="docs/screenshots/walkthrough.gif" width="70%" alt="Walkthrough: press ⌘⇧M, the float counts up while recording, shows Transcribing…, then the text appears in the agent's prompt line" /></p>
 
 ## Requirements
 

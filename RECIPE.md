@@ -36,6 +36,13 @@ While transcribing: a braille spinner in `muted` (90 ms frames) and "Transcribin
   and reset to `null` (PROVIDERS.md).
 - Closing the copy mid-recording runs `voice.py cancel`. The worker exits after one job or `maxSeconds + 120` s.
 
+- Onboarding hint (`hints.js`, pure, `test_hint.mjs`): while idle, when the focused agent goes working → idle, done or
+  blocked, an 11.5 px `dim` chip "🎙 <key> to dictate" (key read from `keys()`, "🎙 Dictate" if unbound) fades in
+  (`.transition("opacity")`), stays 5 s, fades out. Click = toggle, "×" = never again. Limits: first 28 days, 2 h
+  apart, 2 a day, off after 3 dictations (a transcript that produced text) or ×. State is
+  `shared("dictate.hint") = {since, uses, dismissed, shown[]}`: shared state, so a copy started fresh keeps the clock.
+  Never shown while starting, recording or transcribing, or when setup is missing.
+
 **Built from:** a mod `mods/dictate` with `mod.json` `{ "place": "none" }`, placed by each layout's `floating` list:
 `{ "id": "dictate", "content": { "mod": "dictate" }, "edge": "bottom", "align": "center" }`; `main.js` (the view,
 the command loop, the request taker), `route.js` (pure: request parsing, `oneLine`, where the text goes, the clock,
@@ -57,7 +64,11 @@ only, the command `terminal.paste`, and runs `python3`, `ffmpeg` and parakeet-ml
   (`.loop`, `.frames`).
 - Herdr needs macOS microphone permission; ffmpeg inherits it from the app.
 
-**Done when:** `herdr-app check mods/dictate` passes; `node --test mods/dictate/test_route.mjs` passes; `python3
+- The hint's timers (`cx.timer.after`: fade-in start, hold, remove) only move data; the fade is `.transition`. Its
+  shared-state writes happen on show, use and dismiss, never inside `render` (they re-render every mod).
+- Herdr gives mods no text-cursor position, so the hint sits in the float at the bottom, near the prompt line.
+
+**Done when:** `herdr-app check mods/dictate` passes; `node --test mods/dictate/test_route.mjs mods/dictate/test_hint.mjs` passes; `python3
 mods/dictate/voice.py transcribe hello.wav <config>` on a `say`-generated file prints `{"ok": true, "text": "Hello
 world…"}` and leaves no `voice.py worker` process; with the float in the layout and the key bound, pressing it shows
 "Recording", pressing it again pastes the words at the cursor of the focused terminal without submitting; and

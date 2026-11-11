@@ -28,6 +28,9 @@ transcribes on Apple Silicon, and the model detects the language by itself.
 - One key to start and stop (`dictate.toggle`, ⌘⇧M in the sample `keys.json`). While recording a small float at the
   bottom shows a pulsing dot and the time, with Stop and ✕ (cancel, nothing typed). Then "Transcribing…", then it
   disappears.
+- A quiet hint for the first 4 weeks: now and then, when the agent you are looking at stops and waits, a dim
+  "🎙 ⌘⇧M to dictate" chip shows for 5 s (at most twice a day, 2 h apart). Click it to start, × to hide it for good;
+  it also stops after your third dictation.
 - Fast after you stop: a worker loads the model while you speak and warms it up on a second of silence, so only the
   transcription itself is left.
 - Pastes into the terminal that has focus when the text is ready, as a paste (bracketed), never with Enter. Line

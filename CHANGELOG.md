@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Features
+
+- hint: a dim, rare "⌘⇧M to dictate" chip in the first 28 days, when the focused agent waits for you
+
 ## 0.2.0 (2026-11-11)
 
 ### Features

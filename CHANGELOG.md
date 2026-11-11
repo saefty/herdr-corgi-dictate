@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0 (2026-11-11)
+
+### Features
+
+- hint: show a rare onboarding chip with the dictate key for the first 4 weeks
+
 ## Unreleased
 
 ### Features
